@@ -5,6 +5,7 @@
 package entity;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,14 +21,19 @@ public class Customer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long customerId;
-    
-    // other fields aside from the primary key 
+    @Column(nullable = false)
     private String firstName;
+    @Column(nullable = false)
     private String lastName;
+    @Column(nullable = false)
     private String identificationNumber;
+    @Column(nullable = false)
     private String contactNumber;
+    @Column(nullable = false)
     private String addressLine1;
+    @Column(nullable = false)
     private String addressLine2;
+    @Column(nullable = false)
     private String postalCode;
 
     public Customer() {

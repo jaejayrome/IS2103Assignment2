@@ -12,6 +12,6 @@ import javax.ejb.Local;
  * @author jeromegoh
  */
 @Local
-public interface CustomerEntitySessionBeanLocal {
+public interface AutomatedTellerMachineSessionBeanLocal {
     public long createNewCustomer(Customer customer);
 }

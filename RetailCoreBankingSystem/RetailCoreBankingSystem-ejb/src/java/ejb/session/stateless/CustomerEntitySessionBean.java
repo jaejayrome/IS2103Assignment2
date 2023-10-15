@@ -4,15 +4,27 @@
  */
 package ejb.session.stateless;
 
+import entity.Customer;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  *
  * @author jeromegoh
  */
 @Stateless
-public class CustomerEntitySessionBean implements CustomerEntitySessionBeanRemote, CustomerEntitySessionBeanLocal {
-
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
+public class CustomerEntitySessionBean implements CustomerEntitySessionBeanLocal {
+    
+    @PersistenceContext(unitName = "RetailCoreBankingSystem-ejbPU")
+    private EntityManager em;
+    
+    @Override
+    public long createNewCustomer(Customer customer) {
+        em.persist(customer);
+        em.flush();
+        return customer.getCustomerId();
+    }
+    
+     
 }

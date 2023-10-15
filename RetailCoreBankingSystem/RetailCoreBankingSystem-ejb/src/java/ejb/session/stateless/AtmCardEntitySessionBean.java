@@ -11,8 +11,8 @@ import javax.ejb.Stateless;
  * @author jeromegoh
  */
 @Stateless
-public class AtmCardEntitySessionBean implements AtmCardEntitySessionBeanRemote, AtmCardEntitySessionBeanLocal {
+public class AtmCardEntitySessionBean implements AtmCardEntitySessionBeanLocal {
 
     // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
+    // "Insert Code > Add Business Method") 
 }

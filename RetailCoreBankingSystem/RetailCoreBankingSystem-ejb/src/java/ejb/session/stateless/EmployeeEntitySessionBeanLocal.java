@@ -11,6 +11,6 @@ import javax.ejb.Local;
  * @author jeromegoh
  */
 @Local
-public interface CustomerActionSessionBeanLocal {
+public interface EmployeeEntitySessionBeanLocal {
     
 }

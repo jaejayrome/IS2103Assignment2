@@ -4,6 +4,7 @@
  */
 package ejb.session.stateless;
 
+import entity.Customer;
 import javax.ejb.Remote;
 
 /**
@@ -11,6 +12,6 @@ import javax.ejb.Remote;
  * @author jeromegoh
  */
 @Remote
-public interface EmployeEntitySessionBeanRemote {
-    
+public interface AutomatedTellerMachineSessionBeanRemote {
+    public long createNewCustomer(Customer customer);
 }

@@ -7,6 +7,7 @@ package entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,11 +26,17 @@ public class DepositAccountTransaction implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long depositAccountTransactionId;
     
+    @Column(nullable = false)
     private Date transactionDateTime;
+    @Column(nullable = false)
     private TransactionType type;
+    @Column(nullable = false)
     private String code;
+    @Column(nullable = false)
     private String reference;
+    @Column(nullable = false)
     private BigDecimal amount;
+    @Column(nullable = false)
     private TransactionStatus status;
 
     public DepositAccountTransaction() {

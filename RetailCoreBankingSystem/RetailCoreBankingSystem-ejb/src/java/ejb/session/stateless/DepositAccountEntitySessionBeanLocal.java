@@ -4,6 +4,8 @@
  */
 package ejb.session.stateless;
 
+import entity.DepositAccount;
+import entity.DepositAccountTransaction;
 import javax.ejb.Local;
 
 /**
@@ -11,6 +13,7 @@ import javax.ejb.Local;
  * @author jeromegoh
  */
 @Local
-public interface EmployeEntitySessionBeanLocal {
-    
+public interface DepositAccountEntitySessionBeanLocal {
+    public long createNewDepositAccount(DepositAccount depositAccount);
+    public long createNewDepositAccountTransactio(DepositAccountTransaction depositAccountTransaction);
 }

@@ -11,7 +11,7 @@ import javax.ejb.Stateless;
  * @author jeromegoh
  */
 @Stateless
-public class EmployeEntitySessionBean implements EmployeEntitySessionBeanRemote, EmployeEntitySessionBeanLocal {
+public class EmployeeEntitySessionBean implements EmployeeEntitySessionBeanLocal {
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")

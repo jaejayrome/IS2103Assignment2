@@ -11,6 +11,6 @@ import javax.ejb.Remote;
  * @author jeromegoh
  */
 @Remote
-public interface CustomerActionSessionBeanRemote {
+public interface TellerTerminalSessionBeanRemote {
     
 }
