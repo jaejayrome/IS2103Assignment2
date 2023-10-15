@@ -26,6 +26,16 @@ public class AtmCard implements Serializable {
     private boolean enabled;
     private String pin;
 
+    public AtmCard() {
+    }
+    
+    public AtmCard(String cardNumber, String nameOnCard, boolean enabled, String pin) {
+        this.cardNumber = cardNumber;
+        this.nameOnCard = nameOnCard;
+        this.enabled = enabled;
+        this.pin = pin;
+    }
+
     public Long getAtmCardId() {
         return atmCardId;
     }

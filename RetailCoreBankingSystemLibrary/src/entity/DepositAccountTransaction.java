@@ -20,7 +20,38 @@ import util.enumeration.TransactionType;
  */
 @Entity
 public class DepositAccountTransaction implements Serializable {
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long depositAccountTransactionId;
+    
+    private Date transactionDateTime;
+    private TransactionType type;
+    private String code;
+    private String reference;
+    private BigDecimal amount;
+    private TransactionStatus status;
 
+    public DepositAccountTransaction() {
+    }
+    
+    public DepositAccountTransaction(Date transactionDateTime, TransactionType type, String code, String reference, BigDecimal amount, TransactionStatus status) {
+        this.transactionDateTime = transactionDateTime;
+        this.type = type;
+        this.code = code;
+        this.reference = reference;
+        this.amount = amount;
+        this.status = status;
+    }
+    
+    public Long getDepositAccountTransactionId() {
+        return depositAccountTransactionId;
+    }
+
+    public void setDepositAccountTransactionId(Long depositAccountTransactionId) {
+        this.depositAccountTransactionId = depositAccountTransactionId;
+    }
+    
     /**
      * @return the transactionDateTime
      */
@@ -103,26 +134,6 @@ public class DepositAccountTransaction implements Serializable {
      */
     public void setStatus(TransactionStatus status) {
         this.status = status;
-    }
-
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long depositAccountTransactionId;
-    
-    private Date transactionDateTime;
-    private TransactionType type;
-    private String code;
-    private String reference;
-    private BigDecimal amount;
-    private TransactionStatus status;
-
-    public Long getDepositAccountTransactionId() {
-        return depositAccountTransactionId;
-    }
-
-    public void setDepositAccountTransactionId(Long depositAccountTransactionId) {
-        this.depositAccountTransactionId = depositAccountTransactionId;
     }
 
     @Override
