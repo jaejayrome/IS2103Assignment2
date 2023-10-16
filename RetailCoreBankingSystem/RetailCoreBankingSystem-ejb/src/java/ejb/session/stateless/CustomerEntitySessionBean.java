@@ -23,6 +23,7 @@ public class CustomerEntitySessionBean implements CustomerEntitySessionBeanLocal
     public long createNewCustomer(Customer customer) {
         em.persist(customer);
         em.flush();
+        System.out.println("hELLO");
         return customer.getCustomerId();
     }
     

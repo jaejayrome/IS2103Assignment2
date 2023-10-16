@@ -8,6 +8,7 @@ import entity.Customer;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Random;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -20,11 +21,14 @@ import util.enumeration.TransactionType;
  */
 @Stateless
 public class TellerTerminalSessionBean implements TellerTerminalSessionBeanRemote, TellerTerminalSessionBeanLocal {
+
+    @EJB
+    private CustomerEntitySessionBeanLocal customerEntitySessionBeanLocal;
+    @EJB
+    private DepositAccountEntitySessionBeanLocal depositAccountEntitySessionBeanLocal;
+    
      @PersistenceContext(unitName = "RetailCoreBankingSystem-ejbPU")
     private EntityManager em;
-    
-    private static CustomerEntitySessionBeanLocal customerEntitySessionBeanLocal;
-    private static DepositAccountEntitySessionBeanLocal depositAccountEntitySessionBeanLocal;
     
     @Override
     public long createNewCustomer(Customer customer) {
