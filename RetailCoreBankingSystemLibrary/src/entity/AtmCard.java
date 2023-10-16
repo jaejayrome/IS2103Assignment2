@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -25,15 +26,32 @@ public class AtmCard implements Serializable {
     private String nameOnCard;
     private boolean enabled;
     private String pin;
+    
+    //relationships
+    @OneToOne (optional = false)
+    private Customer atmCardCustomer;
 
     public AtmCard() {
     }
     
-    public AtmCard(String cardNumber, String nameOnCard, boolean enabled, String pin) {
+    public AtmCard (String cardNumber, String nameOnCard, boolean enabled, String pin) {
+        this(cardNumber, nameOnCard, enabled, pin, null);
+    }
+    
+    public AtmCard(String cardNumber, String nameOnCard, boolean enabled, String pin, Customer customer) {
         this.cardNumber = cardNumber;
         this.nameOnCard = nameOnCard;
         this.enabled = enabled;
         this.pin = pin;
+        this.atmCardCustomer = customer;
+    }
+    
+    public Customer getAtmCardCustomer() {
+        return atmCardCustomer;
+    }
+
+    public void setAtmCardCustomer(Customer atmCardCustomer) {
+        this.atmCardCustomer = atmCardCustomer;
     }
 
     public Long getAtmCardId() {

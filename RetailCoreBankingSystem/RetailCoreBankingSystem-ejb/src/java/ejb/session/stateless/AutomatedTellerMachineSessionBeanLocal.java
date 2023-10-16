@@ -13,5 +13,5 @@ import javax.ejb.Local;
  */
 @Local
 public interface AutomatedTellerMachineSessionBeanLocal {
-    public long createNewCustomer(Customer customer);
+    
 }

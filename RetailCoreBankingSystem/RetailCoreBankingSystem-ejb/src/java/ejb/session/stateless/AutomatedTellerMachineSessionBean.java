@@ -4,11 +4,7 @@
  */
 package ejb.session.stateless;
 
-import entity.Customer;
-import entity.DepositAccount;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 /**
  *
@@ -17,23 +13,5 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class AutomatedTellerMachineSessionBean implements AutomatedTellerMachineSessionBeanRemote, AutomatedTellerMachineSessionBeanLocal {
 
-    @PersistenceContext(unitName = "RetailCoreBankingSystem-ejbPU")
-    private EntityManager em;
-    
-    private static CustomerEntitySessionBeanLocal customerEntitySessionBeanLocal;
-    private static DepositAccountEntitySessionBeanLocal depositAccountEntitySessionBeanLocal;
-    
-    @Override
-    public long createNewCustomer(Customer customer) {
-        return customerEntitySessionBeanLocal.createNewCustomer(customer);
-    }
-    
-    public long openNewDepositAccount(DepositAccount depositAccount) {
-        // first part is to open account 
-        long l = depositAccountEntitySessionBeanLocal.createNewDepositAccount(depositAccount);
-        // account is created
-        // provide cash transaction
-        return l;
-    }
             
 }

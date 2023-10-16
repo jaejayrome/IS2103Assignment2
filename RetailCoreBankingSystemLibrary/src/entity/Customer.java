@@ -5,11 +5,14 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -35,6 +38,13 @@ public class Customer implements Serializable {
     private String addressLine2;
     @Column(nullable = false)
     private String postalCode;
+    
+    // relationships 
+    @OneToMany (mappedBy= "customer")
+    private List<DepositAccount> depositAccounts;
+    
+    @OneToOne (mappedBy = "atmCardCustomer")
+    private AtmCard atmCard;
 
     public Customer() {
     }
@@ -48,6 +58,23 @@ public class Customer implements Serializable {
         this.addressLine2 = addressLine2;
         this.postalCode = postalCode;
     }
+
+    public AtmCard getAtmCard() {
+        return atmCard;
+    }
+
+    public void setAtmCard(AtmCard atmCard) {
+        this.atmCard = atmCard;
+    }
+    
+    public List<DepositAccount> getDepositAccounts() {
+        return depositAccounts;
+    }
+
+    public void setDepositAccounts(List<DepositAccount> depositAccounts) {
+        this.depositAccounts = depositAccounts;
+    }
+
     
     public Long getCustomerId() {
         return customerId;

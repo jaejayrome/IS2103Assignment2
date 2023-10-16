@@ -6,10 +6,12 @@ package entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import util.enumeration.DepositAccountType;
 
 /**
@@ -23,23 +25,47 @@ public class DepositAccount implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long depositAccountId;
     
+    @Column(nullable = false)
     private String accountNumber;
+    @Column(nullable = false)
     private DepositAccountType accountType;
+    @Column(nullable = false)
     private BigDecimal availableBalance;
+    @Column(nullable = false)
     private BigDecimal holdBalance;
+    @Column(nullable = false)
     private BigDecimal ledgerBalance;
+    @Column(nullable = false)
     private boolean enabled;
+    
+    //Relationships
+    @ManyToOne(optional=false)
+    private Customer customer;
+   
 
     public DepositAccount() {
     }
     
     public DepositAccount(String accountNumber, DepositAccountType accountType, BigDecimal availableBalance, BigDecimal holdBalance, BigDecimal ledgerBalance, boolean enabled) {
+        this(accountNumber, accountType, availableBalance, holdBalance, ledgerBalance, enabled, null);
+    }
+    
+    public DepositAccount(String accountNumber, DepositAccountType accountType, BigDecimal availableBalance, BigDecimal holdBalance, BigDecimal ledgerBalance, boolean enabled, Customer customer) {
         this.accountNumber = accountNumber;
         this.accountType = accountType;
         this.availableBalance = availableBalance;
         this.holdBalance = holdBalance;
         this.ledgerBalance = ledgerBalance;
         this.enabled = enabled;
+        this.customer = customer;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
     
     public Long getDepositAccountId() {
