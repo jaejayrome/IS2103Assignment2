@@ -5,6 +5,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -57,6 +58,7 @@ public class Customer implements Serializable {
         this.addressLine1 = addressLine1;
         this.addressLine2 = addressLine2;
         this.postalCode = postalCode;
+        this.depositAccounts = new ArrayList<DepositAccount>();
     }
 
     public AtmCard getAtmCard() {

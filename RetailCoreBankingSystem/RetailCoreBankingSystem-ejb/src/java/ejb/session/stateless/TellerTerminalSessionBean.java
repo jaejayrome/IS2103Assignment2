@@ -5,10 +5,14 @@
 package ejb.session.stateless;
 
 import entity.Customer;
-import entity.DepositAccount;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.Random;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import util.enumeration.TransactionStatus;
+import util.enumeration.TransactionType;
 
 /**
  *
@@ -27,11 +31,18 @@ public class TellerTerminalSessionBean implements TellerTerminalSessionBeanRemot
         return customerEntitySessionBeanLocal.createNewCustomer(customer);
     }
     
-    public long openNewDepositAccount(DepositAccount depositAccount, int initialDepositAmount) {
-        // first part is to open account 
-        long l = depositAccountEntitySessionBeanLocal.createNewDepositAccount(depositAccount);
-        // account is created
-        // provide cash transaction
-        return l;
+    @Override
+    public long openNewDepositAccount(String identificationNumber, int initialDepositAmount) {
+        // open Deposit Account 
+        long depositAccountId = depositAccountEntitySessionBeanLocal.createNewDepositAccount(identificationNumber);
+        // make initial Deposit
+        long depositAccountTransactionId = depositAccountEntitySessionBeanLocal.createNewDepositAccountTransaction(new BigDecimal(initialDepositAmount), TransactionType.DEBIT, "Initial Debit Transaction", TransactionStatus.COMPLETED, depositAccountId);
+        // update the amount in the deposit acccount 
+        depositAccountEntitySessionBeanLocal.updateDepositAccount(new BigDecimal(initialDepositAmount),depositAccountId);
+        return depositAccountId;
     }
+    
+    
+    
+     
 }

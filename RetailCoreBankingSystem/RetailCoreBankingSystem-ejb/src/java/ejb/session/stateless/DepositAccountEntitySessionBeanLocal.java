@@ -6,7 +6,10 @@ package ejb.session.stateless;
 
 import entity.DepositAccount;
 import entity.DepositAccountTransaction;
+import java.math.BigDecimal;
 import javax.ejb.Local;
+import util.enumeration.TransactionStatus;
+import util.enumeration.TransactionType;
 
 /**
  *
@@ -14,6 +17,7 @@ import javax.ejb.Local;
  */
 @Local
 public interface DepositAccountEntitySessionBeanLocal {
-    public long createNewDepositAccount(DepositAccount depositAccount);
-    public long createNewDepositAccountTransactio(DepositAccountTransaction depositAccountTransaction);
+    public long createNewDepositAccount(String identificationNumber);
+    public long createNewDepositAccountTransaction(BigDecimal amount, TransactionType type, String reference, TransactionStatus status, long depositAccountId);
+    public long updateDepositAccount(BigDecimal amount, long depositAccountId);
 }

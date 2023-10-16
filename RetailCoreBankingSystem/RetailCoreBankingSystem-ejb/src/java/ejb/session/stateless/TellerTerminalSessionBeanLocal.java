@@ -14,4 +14,5 @@ import javax.ejb.Local;
 @Local
 public interface TellerTerminalSessionBeanLocal {
     public long createNewCustomer(Customer customer);
+    public long openNewDepositAccount(String identificationNumber, int initialDepositAmount);
 }

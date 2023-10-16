@@ -12,6 +12,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import java.util.List;
+import java.util.ArrayList;
 import util.enumeration.DepositAccountType;
 
 /**
@@ -41,7 +44,12 @@ public class DepositAccount implements Serializable {
     //Relationships
     @ManyToOne(optional=false)
     private Customer customer;
-   
+    
+    @ManyToOne
+    private AtmCard atmCard;
+    
+    @OneToMany (mappedBy = "depositAccount")
+    private List<DepositAccountTransaction> depositAccountTransactions;
 
     public DepositAccount() {
     }
@@ -58,6 +66,15 @@ public class DepositAccount implements Serializable {
         this.ledgerBalance = ledgerBalance;
         this.enabled = enabled;
         this.customer = customer;
+        this.depositAccountTransactions = new ArrayList<DepositAccountTransaction>();
+    }
+    
+    public List<DepositAccountTransaction> getDepositAccountTransactions() {
+        return depositAccountTransactions;
+    }
+
+    public void setDepositAccountTransactions(List<DepositAccountTransaction> depositAccountTransactions) {
+        this.depositAccountTransactions = depositAccountTransactions;
     }
 
     public Customer getCustomer() {

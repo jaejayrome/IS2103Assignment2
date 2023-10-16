@@ -14,4 +14,5 @@ import javax.ejb.Remote;
 @Remote
 public interface TellerTerminalSessionBeanRemote {
     public long createNewCustomer(Customer customer);
+    public long openNewDepositAccount(String identificationNumber, int initialDepositAmount);
 }

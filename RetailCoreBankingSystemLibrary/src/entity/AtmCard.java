@@ -5,11 +5,14 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import java.util.List;
 
 /**
  *
@@ -30,7 +33,10 @@ public class AtmCard implements Serializable {
     //relationships
     @OneToOne (optional = false)
     private Customer atmCardCustomer;
-
+    
+    @OneToMany
+    private List<DepositAccount> depositAccount;
+    
     public AtmCard() {
     }
     
@@ -44,6 +50,7 @@ public class AtmCard implements Serializable {
         this.enabled = enabled;
         this.pin = pin;
         this.atmCardCustomer = customer;
+        this.depositAccount = new ArrayList<DepositAccount>();
     }
     
     public Customer getAtmCardCustomer() {
