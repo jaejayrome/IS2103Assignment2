@@ -4,6 +4,7 @@
  */
 package ejb.session.stateless;
 
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -12,5 +13,5 @@ import javax.ejb.Local;
  */
 @Local
 public interface AtmCardEntitySessionBeanLocal {
-    
+    public long makeNewAtmCard(List<String> depositAccountNumbers, String nameOnCard, String pin);
 }

@@ -6,6 +6,7 @@ package ejb.session.stateless;
 
 import entity.Customer;
 import entity.DepositAccount;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -17,6 +18,7 @@ import javax.ejb.Local;
 public interface TellerTerminalSessionBeanLocal {
     public long createNewCustomer(Customer customer);
     public long openNewDepositAccount(long customerId, int initialDepositAmount);
-//    public List<DepositAccount> getDepositAccount(String identificationNumber);
     public long getCustomer(String identificationNumber);
+    public List<DepositAccount> getDepositAccounts(long customerId);
+    public long makeNewAtmCard(List<String> depositAccoutNumbers, String nameOnCard, String pin);
 }

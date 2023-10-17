@@ -15,4 +15,5 @@ import javax.ejb.Local;
 public interface CustomerEntitySessionBeanLocal {
     public long createNewCustomer(Customer customer);
     public Customer getCustomer(String identificationNumber);
+    public Customer getCustomerById(long customerId);
 }

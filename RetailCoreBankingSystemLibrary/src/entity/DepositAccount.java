@@ -49,7 +49,7 @@ public class DepositAccount implements Serializable {
     @ManyToOne(optional = false)
     @JoinColumn(nullable = false)
     private AtmCard atmCard;
-    
+   
     @OneToMany (mappedBy = "depositAccount")
     private List<DepositAccountTransaction> depositAccountTransactions;
 
@@ -69,6 +69,14 @@ public class DepositAccount implements Serializable {
         this.enabled = enabled;
         this.customer = customer;
         this.depositAccountTransactions = new ArrayList<DepositAccountTransaction>();
+    }
+    
+    public AtmCard getAtmCard() {
+        return atmCard;
+    }
+
+    public void setAtmCard(AtmCard atmCard) {
+        this.atmCard = atmCard;
     }
     
     public List<DepositAccountTransaction> getDepositAccountTransactions() {

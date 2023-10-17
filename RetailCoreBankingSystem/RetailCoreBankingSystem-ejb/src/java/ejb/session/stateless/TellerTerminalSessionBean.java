@@ -7,6 +7,7 @@ package ejb.session.stateless;
 import entity.Customer;
 import entity.DepositAccount;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -23,9 +24,13 @@ import util.enumeration.TransactionType;
 public class TellerTerminalSessionBean implements TellerTerminalSessionBeanRemote, TellerTerminalSessionBeanLocal {
 
     @EJB
+    private AtmCardEntitySessionBeanLocal atmCardEntitySessionBeanLocal;
+    @EJB
     private CustomerEntitySessionBeanLocal customerEntitySessionBeanLocal;
     @EJB
     private DepositAccountEntitySessionBeanLocal depositAccountEntitySessionBeanLocal;
+    
+    
     
      @PersistenceContext(unitName = "RetailCoreBankingSystem-ejbPU")
     private EntityManager em;
@@ -47,15 +52,28 @@ public class TellerTerminalSessionBean implements TellerTerminalSessionBeanRemot
     }
     
 //    @Override
-//    public List<DepositAccount> getDepositAccount() {
-//        Customer customer = customerEntitySessionBeanLocal.getCustomer(identificationNumber);
-//        return customer.getDepositAccounts();
+//    public long issueNewAtmCard(long customerId, List<Long> depositAccountIds) {
+//        
 //    }
+    // check whether is there any deposit accounts 
+    // ask user what is the account numbers he would want to associate with
+    
+    @Override
+    public List<DepositAccount> getDepositAccounts(long customerId) {
+        Customer customer = customerEntitySessionBeanLocal.getCustomerById(customerId);
+        int initialise = customer.getDepositAccounts().size();
+        return customer.getDepositAccounts();
+    }
     
     @Override
     public long getCustomer(String identificationNumber) {
         Customer customer = customerEntitySessionBeanLocal.getCustomer(identificationNumber);
         return customer.getCustomerId();
+    }
+    
+    @Override
+    public long makeNewAtmCard(List<String> depositAccountNumbers, String nameOnCard, String pin) {
+        return atmCardEntitySessionBeanLocal.makeNewAtmCard(depositAccountNumbers, nameOnCard, pin);
     }
    
     

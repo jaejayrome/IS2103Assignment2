@@ -53,6 +53,14 @@ public class AtmCard implements Serializable {
         this.depositAccount = new ArrayList<DepositAccount>();
     }
     
+    public List<DepositAccount> getDepositAccount() {
+        return depositAccount;
+    }
+
+    public void setDepositAccount(List<DepositAccount> depositAccount) {
+        this.depositAccount = depositAccount;
+    }
+    
     public Customer getAtmCardCustomer() {
         return atmCardCustomer;
     }

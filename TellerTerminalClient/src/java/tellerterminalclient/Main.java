@@ -7,8 +7,11 @@ package tellerterminalclient;
 import ejb.session.stateless.TellerTerminalSessionBeanRemote;
 import entity.Customer;
 import entity.DepositAccount;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 import javax.ejb.EJB;
 
 /**
@@ -52,27 +55,89 @@ public class Main {
             customerId = tellerTerminalSessionBean.createNewCustomer(customer);
         }
         
-        System.out.println("Choose the following actions");
-        System.out.println("Press 1 to Create New Deposit Account");
-        System.out.println("Press 2 to Issue New ATM Card");
-        System.out.println("Press 3 to Issue Replacement ATM Card");
-        System.out.print("> ");
-        int choice = scanner.nextInt();
-        switch (choice) {
-            case 1: 
-                System.out.print("Initial Deposit Amount ");
-                int amount = scanner.nextInt();
-                makeDepositAccount(customerId, amount);
-                break;
-            case 2: 
-             
-            case 3:
+        boolean programContinues = true;
+        while (programContinues) {
+            System.out.println("Choose the following actions");
+            System.out.println("Press 1 to Create New Deposit Account");
+            System.out.println("Press 2 to Issue New ATM Card");
+            System.out.println("Press 3 to Issue Replacement ATM Card");
+            System.out.print("> ");
+            int choice = scanner.nextInt();
+            switch (choice) {
+                case 1: 
+                    System.out.print("Initial Deposit Amount ");
+                    int amount = scanner.nextInt();
+                    makeDepositAccount(customerId, amount);
+                    break;
+                case 2:
+                    issueNewAtmCard(customerId, scanner);
+                    break;
+
+                case 3:
+                    break;
+
+                default: 
+                    break;
+            }
+            System.out.println("Revert back to main menu?");
+            System.out.println("Press 1 to Revert Back");
+            System.out.println("Press 0 to Exit The Session");
+            System.out.print("> ");
+            int finalChoice = scanner.nextInt();
+            if (finalChoice == 0) programContinues = false;
+        }
+    }
+    
+    // business logic 
+    /*
+    1) Ensure that deposit account is created
+    2) if no account redirect him to create a new deposit account
+    3) Else print out the accounts
+    4) ask him which accounts that he want to link to, must choose 1
+    5) then ask other details then straight away create a reply
+    */
+    
+    public static void issueNewAtmCard(long customerId, Scanner scanner) {
+        List<DepositAccount> list = tellerTerminalSessionBean.getDepositAccounts(customerId);
+        if (list.isEmpty()) {
+            System.out.println("You are required to create a Deposit Account before we can issue an ATM Card.");
+        } else {
+            printAllDepositAccount(list);
+            List<String> accountNumberList = list.stream().map(x -> x.getAccountNumber()).collect(Collectors.toList());
+            System.out.print("Enter the number of accounts that you would like to associate this ATM Card with: ");
+            int num = scanner.nextInt();
+            List<String> accountsToAssociate = new ArrayList<String>();
+            for (int i = 1; i <= num; i++) {
+                System.out.print("Account Number #" + i + ": ");
+                String accountNumber = scanner.next();
+                if (accountNumberList.contains(accountNumber)) accountsToAssociate.add(accountNumber);
+            }
+            
+            System.out.print("Enter the name on card: ");
+            String name = scanner.next();
+            System.out.println("Enter your 6 digit pin: ");
+            String pin = scanner.next();
+            
+            // send to backend the depositaccount id and then from there we can associate with thecustom
+            tellerTerminalSessionBean.makeNewAtmCard(accountNumberList, name, pin);
+            System.out.println("ATM Card Successfully Issued!");
         }
     }
     
     public static void makeDepositAccount(long customerId, int amount) {
         tellerTerminalSessionBean.openNewDepositAccount(customerId, amount);
         System.out.println("Account Successfully Created!");
+    }
+    
+    public static void printAllDepositAccount(List<DepositAccount> list) {
+        for (DepositAccount acc: list) {
+                System.out.println("Account Number: " + acc.getAccountNumber());
+                System.out.println("Account Type: " + acc.getAccountType().name());
+                System.out.println("Available Balance: " + acc.getAvailableBalance().toString());
+                System.out.println("Ledger Balance: " + acc.getLedgerBalance().toString());
+                System.out.println("Hold Balance: " + acc.getHoldBalance().toString());
+                System.out.println("-----------------------------------------------------");
+            }
     }
     
 }

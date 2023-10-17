@@ -33,5 +33,10 @@ public class CustomerEntitySessionBean implements CustomerEntitySessionBeanLocal
           .getSingleResult();
     }
     
+    @Override
+    public Customer getCustomerById(long customerId) {
+        return em.find(Customer.class, customerId);
+    }
+    
      
 }

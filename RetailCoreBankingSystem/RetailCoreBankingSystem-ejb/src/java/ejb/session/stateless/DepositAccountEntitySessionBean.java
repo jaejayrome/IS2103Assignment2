@@ -65,6 +65,13 @@ public class DepositAccountEntitySessionBean implements DepositAccountEntitySess
         return depositAccount.getDepositAccountId();
     }
     
+    @Override
+    public DepositAccount getDepositAccountFromAccountNumber(String depositAccountNumber) {
+        return (DepositAccount)em.createQuery("SELECT account FROM DepositAccount account WHERE account.accountNumber LIKE :number")
+          .setParameter("number", depositAccountNumber)
+          .getSingleResult();
+    }
+    
     public static String generateTransactionCode() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         String timestamp = dateFormat.format(new Date());
