@@ -10,10 +10,10 @@ import entity.Customer;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Random;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import util.enumeration.DepositAccountType;
 import util.enumeration.TransactionStatus;
@@ -30,13 +30,14 @@ public class DepositAccountEntitySessionBean implements DepositAccountEntitySess
     private EntityManager em;
     
     @Override
-    public long createNewDepositAccount(String identificationNumber) {
-        Customer customer = this.findCustomerWithIdentificationNumber(identificationNumber);
+    public long createNewDepositAccount(long customerId) {
         DepositAccount depositAccount = new DepositAccount(generateRandomBankAccountNumber(), DepositAccountType.SAVINGS, new BigDecimal(0), new BigDecimal(0), new BigDecimal(0), true);
         em.persist(depositAccount);
         em.flush();
-        
+        Customer customer = em.find(Customer.class, customerId);
         depositAccount.setCustomer(customer);
+        // need add this just to initialise property
+        int results = customer.getDepositAccounts().size(); 
         customer.getDepositAccounts().add(depositAccount);
         return depositAccount.getDepositAccountId();
     }
@@ -44,10 +45,12 @@ public class DepositAccountEntitySessionBean implements DepositAccountEntitySess
     @Override
     public long createNewDepositAccountTransaction(BigDecimal amount, TransactionType type, String reference, TransactionStatus status, long depositAccountId) {
         DepositAccount depositAccount = em.find(DepositAccount.class, depositAccountId);
+
         DepositAccountTransaction depositAccountTransaction = new DepositAccountTransaction(new Date(), type, generateTransactionCode(), reference, amount, status);
         em.persist(depositAccountTransaction);
         em.flush();
         // association
+        
         depositAccountTransaction.setDepositAccount(depositAccount);
         depositAccount.getDepositAccountTransactions().add(depositAccountTransaction);
         return depositAccountTransaction.getDepositAccountTransactionId();
@@ -55,19 +58,11 @@ public class DepositAccountEntitySessionBean implements DepositAccountEntitySess
     
     @Override
     public long updateDepositAccount(BigDecimal amount, long depositAccountId) {
-        em.createQuery(
-            "UPDATE DepositAccount d SET d.availableBalance = :newBalance WHERE d.depositAccountId LIKE :id")
-            .setParameter("id", depositAccountId)
-            .setParameter("newBalance", amount)
-            .getSingleResult();
-        
-        em.createQuery(
-            "UPDATE DepositAccount d SET d.ledgerBalance = :newBalance WHERE d.depositAccountId LIKE :id")
-            .setParameter("id", depositAccountId)
-            .setParameter("newBalance", amount)
-            .getSingleResult();
-        
-        return depositAccountId;
+        DepositAccount depositAccount = em.find(DepositAccount.class, depositAccountId);
+        depositAccount.setAvailableBalance(amount);
+        depositAccount.setLedgerBalance(amount);
+        depositAccount = em.merge(depositAccount);
+        return depositAccount.getDepositAccountId();
     }
     
     public static String generateTransactionCode() {
@@ -91,10 +86,16 @@ public class DepositAccountEntitySessionBean implements DepositAccountEntitySess
     }
     
     public Customer findCustomerWithIdentificationNumber(String identificationNumber) {
-        return (Customer)em.createQuery(
-            "SELECT c FROM Customer c WHERE c.identificationNumber LIKE :id")
-            .setParameter("id", identificationNumber)
-            .getSingleResult();
+        try {
+            Customer customer = (Customer)em.createQuery(
+                "SELECT c FROM Customer c WHERE c.identificationNumber LIKE :id")
+                .setParameter("id", identificationNumber)
+                .getSingleResult();
+            return customer;
+        } catch(NoResultException ex) {
+            System.out.println("You Messed Up!");
+            return null;
+        }
     }
     
 }

@@ -5,6 +5,8 @@
 package ejb.session.stateless;
 
 import entity.Customer;
+import entity.DepositAccount;
+import java.util.List;
 import javax.ejb.Remote;
 
 /**
@@ -14,5 +16,7 @@ import javax.ejb.Remote;
 @Remote
 public interface TellerTerminalSessionBeanRemote {
     public long createNewCustomer(Customer customer);
-    public long openNewDepositAccount(String identificationNumber, int initialDepositAmount);
+    public long openNewDepositAccount(long customerId, int initialDepositAmount);
+//    public List<DepositAccount> getDepositAccount(String identificationNumber);
+    public long getCustomer(String identificationNumber);
 }

@@ -5,6 +5,8 @@
 package ejb.session.stateless;
 
 import entity.Customer;
+import entity.DepositAccount;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -14,5 +16,7 @@ import javax.ejb.Local;
 @Local
 public interface TellerTerminalSessionBeanLocal {
     public long createNewCustomer(Customer customer);
-    public long openNewDepositAccount(String identificationNumber, int initialDepositAmount);
+    public long openNewDepositAccount(long customerId, int initialDepositAmount);
+//    public List<DepositAccount> getDepositAccount(String identificationNumber);
+    public long getCustomer(String identificationNumber);
 }

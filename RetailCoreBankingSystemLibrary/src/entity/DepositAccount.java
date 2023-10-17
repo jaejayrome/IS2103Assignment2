@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.List;
 import java.util.ArrayList;
+import javax.persistence.JoinColumn;
 import util.enumeration.DepositAccountType;
 
 /**
@@ -45,7 +46,8 @@ public class DepositAccount implements Serializable {
     @ManyToOne(optional=false)
     private Customer customer;
     
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
     private AtmCard atmCard;
     
     @OneToMany (mappedBy = "depositAccount")

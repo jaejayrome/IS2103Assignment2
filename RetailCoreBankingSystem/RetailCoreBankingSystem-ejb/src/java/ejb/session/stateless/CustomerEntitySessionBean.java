@@ -23,8 +23,14 @@ public class CustomerEntitySessionBean implements CustomerEntitySessionBeanLocal
     public long createNewCustomer(Customer customer) {
         em.persist(customer);
         em.flush();
-        System.out.println("hELLO");
         return customer.getCustomerId();
+    }
+    
+    @Override
+    public Customer getCustomer(String identificationNumber) {   
+        return (Customer)em.createQuery("SELECT c FROM Customer c WHERE c.identificationNumber LIKE :id")
+          .setParameter("id", identificationNumber)
+          .getSingleResult();
     }
     
      

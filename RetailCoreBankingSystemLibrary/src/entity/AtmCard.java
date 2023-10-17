@@ -34,7 +34,7 @@ public class AtmCard implements Serializable {
     @OneToOne (optional = false)
     private Customer atmCardCustomer;
     
-    @OneToMany
+    @OneToMany(mappedBy = "atmCard")
     private List<DepositAccount> depositAccount;
     
     public AtmCard() {
