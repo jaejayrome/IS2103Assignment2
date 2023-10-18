@@ -5,9 +5,9 @@
 package tellerterminalclient;
 
 import ejb.session.stateless.TellerTerminalSessionBeanRemote;
+import entity.AtmCard;
 import entity.Customer;
 import entity.DepositAccount;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -74,6 +74,7 @@ public class Main {
                     break;
 
                 case 3:
+                    issueReplacementAtmCard(customerId, scanner);
                     break;
 
                 default: 
@@ -124,6 +125,18 @@ public class Main {
         }
     }
     
+    public static void issueReplacementAtmCard(long customerId, Scanner scanner) {
+        // check whether got atm cards or not 
+        AtmCard atmCard = tellerTerminalSessionBean.getAtmCardByCustomerId(customerId);
+        if (atmCard == null) {
+            System.out.println("We can't issue you a replacement card if you never make one before.");
+        } else {
+            long atmCardId = atmCard.getAtmCardId();
+            long newCardId = tellerTerminalSessionBean.replaceNewAtmCard(atmCardId);
+            System.out.println("New ATM Card has been replaced!");
+        }
+    }
+    
     public static void makeDepositAccount(long customerId, int amount) {
         tellerTerminalSessionBean.openNewDepositAccount(customerId, amount);
         System.out.println("Account Successfully Created!");
@@ -139,5 +152,14 @@ public class Main {
                 System.out.println("-----------------------------------------------------");
             }
     }
+    
+    /*
+    Business Logic: 
+    ensure that an ATM card has been issued 
+    need to issue a replacement atm card that maintains these relationships
+    */
+    
+    // delete must be careful
+    
     
 }

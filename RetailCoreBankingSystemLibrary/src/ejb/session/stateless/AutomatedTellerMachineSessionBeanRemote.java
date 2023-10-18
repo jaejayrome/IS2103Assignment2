@@ -13,5 +13,7 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface AutomatedTellerMachineSessionBeanRemote {
+    public long verifyAtmCard(String atmCardNumber, String pin);
+    public void updatePin(long atmCardId, String newPin);
     
 }

@@ -13,5 +13,6 @@ import javax.ejb.Local;
  */
 @Local
 public interface AutomatedTellerMachineSessionBeanLocal {
-    
+    public long verifyAtmCard(String atmCardNumber, String pin);
+    public void updatePin(long atmCardId, String newPin);
 }

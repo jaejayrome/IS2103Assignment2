@@ -4,6 +4,7 @@
  */
 package ejb.session.stateless;
 
+import entity.AtmCard;
 import entity.Customer;
 import entity.DepositAccount;
 import java.math.BigDecimal;
@@ -57,6 +58,16 @@ public class TellerTerminalSessionBean implements TellerTerminalSessionBeanRemot
 //    }
     // check whether is there any deposit accounts 
     // ask user what is the account numbers he would want to associate with
+    
+    @Override 
+    public AtmCard getAtmCardByCustomerId(long customerId) {
+        return atmCardEntitySessionBeanLocal.getAtmCardByCustomerId(customerId);
+    }
+    
+    @Override
+     public long replaceNewAtmCard(long atmCardId) {
+         return atmCardEntitySessionBeanLocal.replaceNewAtmCard(atmCardId);
+     }
     
     @Override
     public List<DepositAccount> getDepositAccounts(long customerId) {

@@ -4,6 +4,7 @@
  */
 package ejb.session.stateless;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 /**
@@ -13,5 +14,15 @@ import javax.ejb.Stateless;
 @Stateless
 public class AutomatedTellerMachineSessionBean implements AutomatedTellerMachineSessionBeanRemote, AutomatedTellerMachineSessionBeanLocal {
 
-            
+    @EJB
+    private AtmCardEntitySessionBeanLocal atmCardEntitySessionBean;
+
+    public long verifyAtmCard(String atmCardNumber, String pin) {
+        return atmCardEntitySessionBean.verfiyAtmCard(atmCardNumber, pin);
+    } 
+    
+    @Override
+    public void updatePin(long atmCardId, String newPin) {
+        atmCardEntitySessionBean.updatePin(atmCardId, newPin);
+    }
 }
