@@ -5,6 +5,7 @@
 package ejb.session.stateless;
 
 import entity.AtmCard;
+import entity.DepositAccount;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -19,4 +20,5 @@ public interface AtmCardEntitySessionBeanLocal {
     public long replaceNewAtmCard(long atmCardId);
     public long verfiyAtmCard(String atmCardNumber, String pin);
     public void updatePin(long atmCardId, String newPin);
+    public List<DepositAccount> getDepositAccountsFromAtmCard(long atmCardId);
 }

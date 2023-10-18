@@ -7,6 +7,7 @@ package ejb.session.stateless;
 import entity.AtmCard;
 import entity.Customer;
 import entity.DepositAccount;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -110,6 +111,15 @@ public class AtmCardEntitySessionBean implements AtmCardEntitySessionBeanLocal {
             accountNumber.append(digit);
         }
         return accountNumber.toString();
+    }
+    
+    @Override
+    public List<DepositAccount> getDepositAccountsFromAtmCard(long atmCardId) {
+        AtmCard atmCard = em.find(AtmCard.class, atmCardId);
+        if (atmCard != null) {
+            int init = atmCard.getDepositAccount().size();
+            return atmCard.getDepositAccount();
+        } else return new ArrayList<DepositAccount>();
     }
 
 }

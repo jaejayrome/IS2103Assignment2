@@ -4,6 +4,9 @@
  */
 package ejb.session.stateless;
 
+import entity.AtmCard;
+import entity.DepositAccount;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -24,5 +27,10 @@ public class AutomatedTellerMachineSessionBean implements AutomatedTellerMachine
     @Override
     public void updatePin(long atmCardId, String newPin) {
         atmCardEntitySessionBean.updatePin(atmCardId, newPin);
+    }
+    
+    @Override 
+    public List<DepositAccount> getDepositAccountsFromAtmCard(long atmCardId) {
+        return atmCardEntitySessionBean.getDepositAccountsFromAtmCard(atmCardId);
     }
 }

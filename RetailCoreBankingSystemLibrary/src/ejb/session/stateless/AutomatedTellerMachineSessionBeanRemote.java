@@ -4,7 +4,9 @@
  */
 package ejb.session.stateless;
 
-import entity.Customer;
+import entity.AtmCard;
+import entity.DepositAccount;
+import java.util.List;
 import javax.ejb.Remote;
 
 /**
@@ -15,5 +17,6 @@ import javax.ejb.Remote;
 public interface AutomatedTellerMachineSessionBeanRemote {
     public long verifyAtmCard(String atmCardNumber, String pin);
     public void updatePin(long atmCardId, String newPin);
+    public List<DepositAccount> getDepositAccountsFromAtmCard(long atmCardId);
     
 }

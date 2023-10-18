@@ -5,7 +5,11 @@
 package automatedtellermachineclient;
 
 import ejb.session.stateless.AutomatedTellerMachineSessionBeanRemote;
+import entity.DepositAccount;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 import javax.ejb.EJB;
 
 /**
@@ -91,6 +95,7 @@ public class Main {
                 mainMenu(scanner, atmCardId);
                 break;
             case 2: 
+                enquireBalance(scanner, atmCardId);
                 mainMenu(scanner, atmCardId);
                 break;
             case 0: 
@@ -106,6 +111,49 @@ public class Main {
         String newNumber = scanner.next();
         automatedTellerMachineSessionBean.updatePin(atmCardId, newNumber);
         System.out.println("Pin Successfully Updated!");
+    }
+    
+    public static void enquireBalance(Scanner scanner, long atmCardId) {
+        List<DepositAccount> list = automatedTellerMachineSessionBean.getDepositAccountsFromAtmCard(atmCardId);
+        List<String> accountNumberList = list.stream().map(x -> x.getAccountNumber()).collect(Collectors.toList());
+        list.forEach(x -> System.out.println("Account Number: " + x.getAccountNumber() + "\n" + "Account Type: " + x.getAccountType().name() + "\n"));
+            boolean successfulBalance = false;
+            while (!successfulBalance) {
+                System.out.print("Enter the account number of account: ");
+                String accountNum = scanner.next();
+                if (accountNumberList.contains(accountNum)) {
+                    DepositAccount account = list.stream().filter(x -> x.getAccountNumber().equals(accountNum)).findFirst().get();
+                    System.out.println("-----------------------------------------------------");
+                    printDepositAccount(account);
+                    successfulBalance = true;
+                } else {
+                    System.out.println("You entered an invalid deposit account number!");
+                    System.out.println("You have either used the wrong ATM Card or entered the wrong PIN number");
+                    System.out.println("Press 0 to exit to main menu or Press 1 to retry");
+                    System.out.print("> ");
+                    if (scanner.nextInt() == 0) {
+                        return;
+                    } else {
+                        continue;
+                    }
+                }
+            }
+        
+    }
+
+    public static void printDepositAccount(DepositAccount acc) {
+         System.out.println("Account Number: " + acc.getAccountNumber());
+        System.out.println("Account Type: " + acc.getAccountType().name());
+        System.out.println("Available Balance: " + acc.getAvailableBalance().toString());
+//        System.out.println("Ledger Balance: " + acc.getLedgerBalance().toString());
+//        System.out.println("Hold Balance: " + acc.getHoldBalance().toString());
+        System.out.println("-----------------------------------------------------");
+    }
+    
+    public static void printAllDepositAccount(List<DepositAccount> list) {
+        for (DepositAccount acc: list) {
+           printDepositAccount(acc);
+        }
     }
     
 }

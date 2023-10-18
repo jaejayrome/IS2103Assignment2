@@ -4,7 +4,10 @@
  */
 package ejb.session.stateless;
 
+import entity.AtmCard;
 import entity.Customer;
+import entity.DepositAccount;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -15,4 +18,5 @@ import javax.ejb.Local;
 public interface AutomatedTellerMachineSessionBeanLocal {
     public long verifyAtmCard(String atmCardNumber, String pin);
     public void updatePin(long atmCardId, String newPin);
+    public List<DepositAccount> getDepositAccountsFromAtmCard(long atmCardId);
 }

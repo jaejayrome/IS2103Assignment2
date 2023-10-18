@@ -115,7 +115,7 @@ public class Main {
             }
             
             System.out.print("Enter the name on card: ");
-            String name = scanner.next();
+            String name = scanner.nextLine();
             System.out.println("Enter your 6 digit pin: ");
             String pin = scanner.next();
             
