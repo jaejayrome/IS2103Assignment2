@@ -63,24 +63,35 @@ public class AtmCardEntitySessionBean implements AtmCardEntitySessionBeanLocal {
     
     @Override
     public long replaceNewAtmCard(long atmCardId) {
+        // retrive the old atmCard
         AtmCard atmCard = em.find(AtmCard.class, atmCardId);
+        // retrieve the customer that was linked previously
         Customer customer = atmCard.getAtmCardCustomer();
+        // intialise all the previously linkedAtmCards
         int initialise = atmCard.getDepositAccount().size();
+       // find all the accountNumbers for deposit account that are previously linked
         List<String> listOfAccountNumbers = atmCard.getDepositAccount().stream().map(x -> x.getAccountNumber()).collect(Collectors.toList());
+        // make the new atm card
         long replacementCardId = this.makeNewAtmCard(listOfAccountNumbers, atmCard.getNameOnCard(), atmCard.getPin());
+        // persist the new atm card
         AtmCard replacementCard = em.find(AtmCard.class, replacementCardId);
+        
+        // unlinking all the previous relationships
+        customer.setAtmCard(null);
+        
+        List<DepositAccount> depositAccountList = atmCard.getDepositAccount();
+        for (DepositAccount depositAccount : depositAccountList) {
+            depositAccount.setAtmCard(null);
+        }
+        em.remove(atmCard);
+
+        // setting the relationship
         customer.setAtmCard(replacementCard);
-        for (DepositAccount depositAccount : atmCard.getDepositAccount()) {
+        // setting the new relationship
+        for (DepositAccount depositAccount : depositAccountList) {
             depositAccount.setAtmCard(replacementCard);
         }
-         
-        // do i have to delete and make a new one? 
-        // or can i just change the card number 
-        // or do i not have to delete anything and just change the boolean to false 
-        // once all done then i can remove 
-        // mandatory relationship i cannot set it back to null 
-        // else would i have to use orphan removal?
-        // em.remove(atmCard);
+        
         return replacementCardId;
     }
     

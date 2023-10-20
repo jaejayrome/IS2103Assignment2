@@ -4,7 +4,6 @@
  */
 package ejb.session.stateless;
 
-import entity.AtmCard;
 import entity.DepositAccount;
 import java.util.List;
 import javax.ejb.Remote;

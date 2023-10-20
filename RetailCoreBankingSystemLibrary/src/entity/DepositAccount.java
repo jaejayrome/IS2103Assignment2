@@ -46,7 +46,7 @@ public class DepositAccount implements Serializable {
     @ManyToOne(optional=false)
     private Customer customer;
     
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = true)
     @JoinColumn(nullable = false)
     private AtmCard atmCard;
    
